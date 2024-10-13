@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SuapKrishina</string>
+    <string name="text_nome">Nome</string>
+    <string name="text_nota_1">Nota 1</string>
+    <string name="text_nota_2">Nota 2</string>
+    <string name="text_nota_3">Nota 3</string>
+    <string name="button_calcular">Ver relatório</string>
+    <string name="text_calcular_notas">CALCULAR NOTAS</string>
+    <string name="text_resultado">Relatório</string>
+    <string name="media">Média:</string>
+    <string name="text_idade">Idade</string>
+    <string name="button_adicionar_novo_aluno">Adicionar aluno(a)</string>
+</resources>
