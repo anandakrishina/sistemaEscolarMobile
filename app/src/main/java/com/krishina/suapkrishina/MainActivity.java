@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 editText_nota1.setText("");
                 editText_nota2.setText("");
                 editText_nota3.setText("");
-
             }
         });
 
@@ -62,38 +59,49 @@ public class MainActivity extends AppCompatActivity {
                 mostraResultado();
             }
         }));
-
     }
 
     private void mostraResultado() {
-        double media = mediaTurma();
-        String alunoMaisVelho = verificaAlunoMaisVelho();
-        String alunoMaisNovo = verificaAlunoMaisNovo();
-        String mostrarMediaTurma = String.format("Média da turma: %.2f", media);
-        String mostrarAlunoMaisVelho = String.format("Aluno(a) mais velho(a): %s", alunoMaisVelho);
-        String mostrarAlunoMaisNovo = String.format("Aluno(a) mais novo(a): %s", alunoMaisNovo);
+        //double media = mediaTurma();
+        //String alunoMaisVelho = verificaAlunoMaisVelho();
+        //String alunoMaisNovo = verificaAlunoMaisNovo();
+        String mostrarMediaTurma = String.format("Média da turma: %.2f", mediaTurma());
+        String mostrarAlunoMaisVelho = String.format("Aluno(a) mais velho(a): %s", verificaAlunoMaisVelho());
+        String mostrarAlunoMaisNovo = String.format("Aluno(a) mais novo(a): %s", verificaAlunoMaisNovo());
+        String mostrarRelatorioGeral = mostrarRelatorioGeral();
 
         Intent it = new Intent(MainActivity.this, Activity2.class);
+        it.putExtra("relatorioGeral", mostrarRelatorioGeral);
         it.putExtra("mediaTurma", mostrarMediaTurma);
         it.putExtra("mostrarAlunoMaisVelho",mostrarAlunoMaisVelho);
         it.putExtra("mostrarAlunoMaisNovo",mostrarAlunoMaisNovo);
         startActivity(it);
     }
 
+    private String mostrarRelatorioGeral() {
+        String relatorio = "----ESTUDANTES----\n\n";
+        for (Aluno aluno : alunoList) {
+            relatorio += aluno.getNome().toUpperCase() + " - Média = " + aluno.calculaMedia() + " - "+ aluno.verificaSituacao() + "\n";
+        }
+        return relatorio;
+    }
+
     private void cadastroAluno() {
         String nome = editText_name.getText().toString();
-        int idade = Integer.parseInt(editText_age.getText().toString());
-        String nota1 = editText_nota1.getText().toString();
-        String nota2 = editText_nota2.getText().toString();
-        String nota3 = editText_nota3.getText().toString();
+        if (nome.isEmpty()){
+            editText_name.setError("Digite um nome");
+            return;
+        }
 
-        double nota1Valor = Double.parseDouble(nota1);
-        double nota2Valor = Double.parseDouble(nota2);
-        double nota3Valor = Double.parseDouble(nota3);
+        int idade = Integer.parseInt(editText_age.getText().toString());
+        double nota1Valor = Double.parseDouble(editText_nota1.getText().toString());
+        double nota2Valor = Double.parseDouble(editText_nota2.getText().toString());
+        double nota3Valor = Double.parseDouble(editText_nota3.getText().toString());
 
 
         Aluno aluno = new Aluno(nome, idade, nota1Valor, nota2Valor, nota3Valor);
         alunoList.add(aluno);
+
 
         /*
         test
@@ -115,8 +123,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String verificaAlunoMaisVelho(){
-        int idade = -1;
+        int idade = Integer.MIN_VALUE;
         String alunoMaisVelho = null;
+
 
         for (Aluno aluno : alunoList) {
             if (idade < aluno.getIdade()){
