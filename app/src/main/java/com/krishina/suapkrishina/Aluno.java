@@ -30,6 +30,7 @@ public class Aluno {
     public double getNota3() {
         return nota3;
     }
+
     public double calculaMedia(){
                 return (nota1 + nota2 + nota3) / 3;
     }

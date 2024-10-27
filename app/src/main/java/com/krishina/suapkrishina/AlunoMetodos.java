@@ -56,4 +56,8 @@ public class AlunoMetodos {
         return relatorio;
     }
 
+    public void cadastrarAluno(String nome, int idade, double nota1Valor, double nota2Valor, double nota3Valor) {
+        Aluno aluno = new Aluno(nome, idade, nota1Valor, nota2Valor, nota3Valor);
+        alunoList.add(aluno);
+    }
 }

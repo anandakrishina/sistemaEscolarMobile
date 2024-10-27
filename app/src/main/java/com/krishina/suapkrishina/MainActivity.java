@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText_nota3;
     private Button button_click;
     private Button button_adicionar;
-    private List<Aluno> alunoList;
     private AlunoMetodos alunoMetodos = new AlunoMetodos();
 
 
@@ -38,30 +37,22 @@ public class MainActivity extends AppCompatActivity {
         button_click = findViewById(R.id.button_calcular);
         button_adicionar = findViewById(R.id.button_cadastrar);
 
-        alunoList = new ArrayList<>();
-
-
         button_adicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cadastroAluno();
-                editText_name.setText("");
-                editText_age.setText("");
-                editText_nota1.setText("");
-                editText_nota2.setText("");
-                editText_nota3.setText("");
             }
         });
 
         button_click.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mostraResultado();
+                iniciarActivityRelatorio();
             }
         }));
     }
 
-    private void mostraResultado() {
+    private void iniciarActivityRelatorio() {
         String mostrarMediaTurma = String.format("Média da turma: %.2f", alunoMetodos.mediaTurma());
         String mostrarAlunoMaisVelho = String.format("Aluno(a) mais velho(a): %s", alunoMetodos.verificaAlunoMaisVelho());
         String mostrarAlunoMaisNovo = String.format("Aluno(a) mais novo(a): %s", alunoMetodos.verificaAlunoMaisNovo());
@@ -82,8 +73,16 @@ public class MainActivity extends AppCompatActivity {
         double nota2Valor = Double.parseDouble(editText_nota2.getText().toString());
         double nota3Valor = Double.parseDouble(editText_nota3.getText().toString());
 
-        Aluno aluno = new Aluno(nome, idade, nota1Valor, nota2Valor, nota3Valor);
-        alunoList.add(aluno);
-        alunoMetodos.setAlunoList(alunoList);
+
+        alunoMetodos.cadastrarAluno(nome, idade, nota1Valor, nota2Valor, nota3Valor);
+        limparCampos();
+    }
+
+    private void limparCampos() {
+        editText_name.setText("");
+        editText_age.setText("");
+        editText_nota1.setText("");
+        editText_nota2.setText("");
+        editText_nota3.setText("");
     }
 }
